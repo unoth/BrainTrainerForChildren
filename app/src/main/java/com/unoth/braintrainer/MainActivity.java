@@ -27,15 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        addedOptions();
         generateQuestion();
-        for (int i = 0; i < options.size(); i++) {
-            if (i == rightAnswerPosition) {
-                options.get(i).setText(Integer.toString(rightAnswer));
-            } else {
-                options.get(i).setText(Integer.toString(generateWrongAnswer()));
-            }
-        }
+        addedOptions();
     }
 
     private void addedOptions() {
@@ -43,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         options.add(textViewOption1);
         options.add(textViewOption2);
         options.add(textViewOption3);
+        for (int i = 0; i < options.size(); i++) {
+            if (i == rightAnswerPosition) {
+                options.get(i).setText(Integer.toString(rightAnswer));
+            } else {
+                options.get(i).setText(Integer.toString(generateWrongAnswer()));
+            }
+        }
     }
 
     private void initViews() {
