@@ -1,7 +1,9 @@
 package com.unoth.braintrainer;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        generateQuestion();
         addedOptions();
+        playNext();
     }
 
     private void addedOptions() {
@@ -36,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         options.add(textViewOption1);
         options.add(textViewOption2);
         options.add(textViewOption3);
+    }
+
+    private void playNext() {
+        generateQuestion();
         for (int i = 0; i < options.size(); i++) {
             if (i == rightAnswerPosition) {
                 options.get(i).setText(Integer.toString(rightAnswer));
@@ -77,6 +83,18 @@ public class MainActivity extends AppCompatActivity {
             result = (int) (Math.random() * max * 2 + 1) - (max - min);
         } while (result == rightAnswer);
         return result;
+    }
+
+    public void onClickAnswer(View view) {
+        TextView textView = (TextView) view;
+        String answer = textView.getText().toString();
+        int selectedAnswer = Integer.parseInt(answer);
+        if (selectedAnswer == rightAnswer) {
+            Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
+        }
+        playNext();
     }
 
 }
