@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,15 +43,23 @@ public class MainActivity extends AppCompatActivity {
         addedOptions();
         playNext();
 
-        CountDownTimer timer = new CountDownTimer(6000, 1000) {
+        CountDownTimer timer = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilEnd) {
                 textViewTimer.setText(getTime(millisUntilEnd));
+                if (millisUntilEnd < 5000) {
+                    textViewTimer.setTextColor(ContextCompat.getColor(
+                                    MainActivity.this,
+                                    android.R.color.holo_red_light
+                            )
+                    );
+                }
             }
 
             @Override
             public void onFinish() {
-                SharedPreferences preferences = getApplication().getSharedPreferences("scoreMax", Context.MODE_PRIVATE);
+                SharedPreferences preferences = getApplication()
+                        .getSharedPreferences("scoreMax", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 int scoreMax = preferences.getInt("scoreMax", 0);
                 if (countOfRightQuestions > scoreMax) {
