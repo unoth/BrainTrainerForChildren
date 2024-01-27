@@ -8,20 +8,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView textViewTimer;
+    private TextView textViewScore;
+    private TextView textViewQuestion;
     private TextView textViewOption0;
     private TextView textViewOption1;
     private TextView textViewOption2;
     private TextView textViewOption3;
     private ArrayList<TextView> options = new ArrayList<>();
-    private TextView textViewTimer;
-    private TextView textViewScore;
-    private TextView textViewQuestion;
+
     private String question;
     private int rightAnswer;
     private int rightAnswerPosition;
     private boolean isPositive;
     private int min = 5;
     private int max = 30;
+
+    private int countOfQuestions = 0;
+    private int countOfRightQuestions = 0;
 
 
     @Override
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 options.get(i).setText(Integer.toString(generateWrongAnswer()));
             }
         }
+        String score = String.format("%s / %s", countOfQuestions, countOfRightQuestions);
+        textViewScore.setText(score);
     }
 
     private void initViews() {
@@ -90,10 +96,12 @@ public class MainActivity extends AppCompatActivity {
         String answer = textView.getText().toString();
         int selectedAnswer = Integer.parseInt(answer);
         if (selectedAnswer == rightAnswer) {
+            countOfRightQuestions++;
             Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
         }
+        countOfQuestions++;
         playNext();
     }
 
