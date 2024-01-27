@@ -1,11 +1,13 @@
 package com.unoth.braintrainer;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textViewTimer;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int countOfQuestions = 0;
     private int countOfRightQuestions = 0;
+    private Boolean gameOver = false;
 
 
     @Override
@@ -35,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         addedOptions();
         playNext();
+
+        CountDownTimer timer = new CountDownTimer(6000, 1000) {
+            @Override
+            public void onTick(long millisUntilEnd) {
+                textViewTimer.setText(getTime(millisUntilEnd));
+            }
+
+            @Override
+            public void onFinish() {
+                gameOver = true;
+            }
+        };
+        timer.start();
     }
 
     private void addedOptions() {
@@ -92,17 +108,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAnswer(View view) {
-        TextView textView = (TextView) view;
-        String answer = textView.getText().toString();
-        int selectedAnswer = Integer.parseInt(answer);
-        if (selectedAnswer == rightAnswer) {
-            countOfRightQuestions++;
-            Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
+        if (!gameOver) {
+            TextView textView = (TextView) view;
+            String answer = textView.getText().toString();
+            int selectedAnswer = Integer.parseInt(answer);
+            if (selectedAnswer == rightAnswer) {
+                countOfRightQuestions++;
+                Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
+            }
+            countOfQuestions++;
+            playNext();
         }
-        countOfQuestions++;
-        playNext();
+    }
+
+    private String getTime(long millis) {
+        int sec = (int) (millis / 1000);
+        int minutes = sec / 60;
+        sec = sec % 60;
+        return String.format(Locale.getDefault(), "%02d:%02d", minutes, sec);
     }
 
 }
