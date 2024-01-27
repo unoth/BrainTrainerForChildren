@@ -1,6 +1,8 @@
 package com.unoth.braintrainer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -48,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                SharedPreferences preferences = getApplication().getSharedPreferences("scoreMax", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                int scoreMax = preferences.getInt("scoreMax", 0);
+                if (countOfRightQuestions > scoreMax) {
+                    editor.putInt("scoreMax", countOfRightQuestions).apply();
+                }
                 gameOver = true;
                 Intent intent = new Intent(MainActivity.this, ScoreActivity.class);
                 intent.putExtra("result", countOfRightQuestions);
