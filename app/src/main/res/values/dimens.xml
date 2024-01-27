@@ -2,6 +2,10 @@
 <resources>
     <dimen name="padding_inside_textView">32dp</dimen>
     <dimen name="text_size_options">18sp</dimen>
+    <dimen name="text_size_score">24sp</dimen>
     <dimen name="text_size_timer">24sp</dimen>
     <dimen name="text_size_question">32sp</dimen>
+    <dimen name="margin_timer">8dp</dimen>
+    <dimen name="margin_score">8dp</dimen>
+    <dimen name="margin_btn">12dp</dimen>
 </resources>
