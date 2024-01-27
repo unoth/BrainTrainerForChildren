@@ -1,5 +1,6 @@
 package com.unoth.braintrainer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 gameOver = true;
+                Intent intent = new Intent(MainActivity.this, ScoreActivity.class);
+                intent.putExtra("result", countOfRightQuestions);
+                startActivity(intent);
             }
         };
         timer.start();
@@ -129,5 +133,6 @@ public class MainActivity extends AppCompatActivity {
         sec = sec % 60;
         return String.format(Locale.getDefault(), "%02d:%02d", minutes, sec);
     }
+
 
 }
